@@ -1,5 +1,5 @@
 ## Basic game idea
-For this project I want to create a classic break braker game.
+For this project I want to create a classic brick braker game.
 ## Technologies
 I will be using HTML5, CSS, JavaScript, jquery and bootstrap for making the game board and loggics.
 ## My MVP
@@ -19,6 +19,7 @@ I will be using HTML5, CSS, JavaScript, jquery and bootstrap for making the game
 * Sound
 * Levels
 * Timer
+* Add multiple hits to some bricks
 
 ## Wireframe
 ![This is the picture of of my wireframe](wireframe.jpg)
