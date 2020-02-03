@@ -19,21 +19,28 @@ canvas {
     padding: 1em;
     display: grid;
     grid-gap: 1em;
-    grid-template-rows: .5fr .5fr;
-    grid-template-columns: .5fr .5fr;
-    grid-template-areas: "top-left top-right" "game game" "btm btm";
+    grid-template-rows: .25fr .25fr;
+    grid-template-columns: .25fr .5fr .25fr;
+    grid-template-areas: "top-left center top-right" "game game game" "btm btm btm";
 }
 
 aside {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #222;
+    /* background-color: #222; */
+}
+
+#center {
+    grid-area: center;
+    justify-content: center;
+    color: white;
 }
 
 #top-left {
     grid-area: top-left;
-    justify-content: left;
+    /* justify-content: left; */
+    margin-left: 30px;
     color: white;
 }
 
