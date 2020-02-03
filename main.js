@@ -1,13 +1,9 @@
-/*
-    Reference: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes 
-*/
-
 // Variable declaration for HTML elements
-var score = document.getElementById('center');
-var level = document.getElementById('top-left');
-var lives = document.getElementById('top-right');
-var gameBoard = document.getElementById('game');
-var reset = document.getElementById('status');
+let score = document.getElementById('center'),
+    level = document.getElementById('top-left'),
+    lives = document.getElementById('top-right'),
+    gameBoard = document.getElementById('game'),
+    reset = document.getElementById('status');
 
 let ctx = gameBoard.getContext('2d');
 
@@ -16,18 +12,41 @@ gameBoard.setAttribute("width", getComputedStyle(gameBoard)["width"]);
 gameBoard.setAttribute("height", getComputedStyle(gameBoard)["height"]);
 
 // variables for the paddle
-let paddleH = 12;
-let paddleW = 70;
-let pLocation = (gameBoard.width - paddleW) / 2;
+let paddleH = 12,
+    paddleW = 70,
+    pLocation = (gameBoard.width - paddleW) / 2;
 // variables for ball positioning
-let ballX = gameBoard.width / 2;
-let ballY = gameBoard.height - 30;
-let dx = 3,
+let ballX = gameBoard.width / 2,
+    ballY = gameBoard.height - 30,
+    dx = 3,
     dy = -3;
 let ballRadius = 10;
 // keyboard keys
-let arrowRight = false;
-let arrowLeft = false;
+let arrowRight = false,
+    arrowLeft = false;
+// brick variables
+let bricks = [],
+    brickHeight = 15,
+    brickWidth = 65,
+    brickRow = 4,
+    brickColn = 6;
+
+// Want to loop through and create an array of new brick
+for (let i = 0; i < brickColn; i++) {
+    if (!bricks[i]) {
+        bricks[i] = [];
+        for (let j = 0; j < brickRow; j++) {
+            console.log("I'm here")
+                // console.log(bricks[i][j]);
+            bricks[i][j] = {
+                x: 0,
+                y: 0
+            };
+        }
+
+    }
+};
+console.log(bricks)
 
 // Game instruction
 function gameInstruction() {
@@ -48,7 +67,11 @@ function drawPaddle() {
 
 // function to move the paddle
 function paddleMovement() {
-
+    if (arrowLeft && (pLocation > 0)) {
+        pLocation -= 5;
+    } else if (arrowRight && (pLocation + paddleW) < gameBoard.width) {
+        pLocation += 5;
+    }
 }
 
 // keyboard pressed down function
@@ -80,7 +103,7 @@ document.addEventListener('keyup', keyRelease);
 // function to draw ball
 function drawBall() {
     ctx.beginPath();
-    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2, true);
+    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = "red";
     ctx.fill()
     ctx.closePath();
@@ -94,7 +117,19 @@ function ballMovement() {
 
 // function to draw bricks
 function drawBricks() {
-
+    for (let i = 0; i < brickColn; i++) {
+        for (let j = 0; j < brickRow; j++) {
+            let brickPositionX = (i * (brickWidth + 10) + 30);
+            let brickPositionY = (j * (brickHeight + 12) + 40);
+            bricks[i][j].x = brickPositionX;
+            bricks[i][j].y = brickPositionY;
+            ctx.beginPath()
+            ctx.rect(brickPositionX, brickPositionY, brickWidth, brickHeight);
+            ctx.fillStyle = "white";
+            ctx.fill()
+            ctx.closePath();
+        }
+    }
 }
 
 // function to detect ball collision 
@@ -105,8 +140,11 @@ function collisionDetection() {
 // Function to start and loop game. Main game function
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
+    drawBricks();
     drawBall();
     drawPaddle();
+
+    paddleMovement();
 
     ballMovement();
     requestAnimationFrame(gameLoop);
