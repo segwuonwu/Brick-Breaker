@@ -2,11 +2,12 @@
     Reference: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes 
 */
 
-// Variable declaration
-var score = document.getElementById('top-left');
+// Variable declaration for HTML elements
+var score = document.getElementById('center');
+var level = document.getElementById('top-left');
 var lives = document.getElementById('top-right');
 var gameBoard = document.getElementById('game');
-var btn = document.getElementById('status');
+var reset = document.getElementById('status');
 
 let ctx = gameBoard.getContext('2d');
 
@@ -21,11 +22,12 @@ let pLocation = (gameBoard.width - paddleW) / 2;
 // variables for ball positioning
 let ballX = gameBoard.width / 2;
 let ballY = gameBoard.height - 30;
-let dx = 2,
-    dy = -2;
+let dx = 3,
+    dy = -3;
 let ballRadius = 10;
-
-
+// keyboard keys
+let arrowRight = false;
+let arrowLeft = false;
 
 // Game instruction
 function gameInstruction() {
@@ -44,6 +46,37 @@ function drawPaddle() {
     ctx.closePath();
 };
 
+// function to move the paddle
+function paddleMovement() {
+
+}
+
+// keyboard pressed down function
+function keyPress(event) {
+    if (event.keyCode === 39) {
+        arrowRight = true;
+        console.log("right key has been pressed")
+    } else if (event.keyCode === 37) {
+        arrowLeft = true;
+        console.log("left key has been pressed")
+    }
+}
+
+document.addEventListener('keydown', keyPress);
+
+// keyboard press release function
+function keyRelease() {
+    if (event.keyCode === 39) {
+        arrowRight = false;
+        console.log("right key has been released")
+    } else if (event.keyCode === 37) {
+        arrowLeft = false;
+        console.log("left key has been released")
+    }
+}
+
+document.addEventListener('keyup', keyRelease);
+
 // function to draw ball
 function drawBall() {
     ctx.beginPath();
@@ -53,19 +86,30 @@ function drawBall() {
     ctx.closePath();
 };
 
+//change in ball direction
+function ballMovement() {
+    // ballX += dx;
+    // ballY += dy;
+}
+
+// function to draw bricks
+function drawBricks() {
+
+}
+
+// function to detect ball collision 
+function collisionDetection() {
+
+}
+
+// Function to start and loop game. Main game function
 function gameLoop() {
     ctx.clearRect(0, 0, game.width, game.height);
     drawBall();
     drawPaddle();
 
-    //change in ball direction
-    //ballX += dx;
-    //ballY += dy;
+    ballMovement();
     requestAnimationFrame(gameLoop);
-}
-
-function collisionDetection() {
-
 }
 
 requestAnimationFrame(gameLoop);
