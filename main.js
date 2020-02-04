@@ -111,8 +111,8 @@ function drawBall() {
 
 //change in ball direction
 function ballMovement() {
-    // ballX += dx;
-    // ballY += dy;
+    ballX += dx;
+    ballY += dy;
 }
 
 // function to draw bricks
@@ -134,6 +134,18 @@ function drawBricks() {
 
 // function to detect ball collision 
 function collisionDetection() {
+    if ((ballX + dx > gameBoard.width - ballRadius) || (ballX < ballRadius)) {
+        dx--;
+    }
+    if (ballY + dy < ballRadius) {
+        dy++;
+    } else if (ballY + dy > gameBoard.height - ballRadius) {
+        if (ballX > pLocation && ballX < pLocation - paddleW) {
+            dy--;
+        } else {
+            console.log("GameOver");
+        }
+    }
 
 }
 
@@ -144,8 +156,8 @@ function gameLoop() {
     drawBall();
     drawPaddle();
 
+    collisionDetection()
     paddleMovement();
-
     ballMovement();
     requestAnimationFrame(gameLoop);
 }
