@@ -1,12 +1,14 @@
 // Variable declaration for HTML elements
-var lives = 5;
-let score = document.getElementById('center'),
-    level = document.getElementById('top-left'),
-    life = document.getElementById('top-right'),
+
+let scoreBoard = document.getElementById('score'),
+    levelBoard = document.getElementById('level'),
+    liveBoard = document.getElementById('lives'),
     gameBoard = document.getElementById('game'),
-    reset = document.getElementById('status');
+    resetBtn = document.getElementById('status');
 
-
+var score = 0,
+    level = 1,
+    lives = 3;
 
 let ctx = gameBoard.getContext('2d');
 
@@ -17,14 +19,15 @@ gameBoard.setAttribute("height", getComputedStyle(gameBoard)["height"]);
 // variables for the paddle
 let paddleH = 12,
     paddleW = 70,
-    pLocation = (gameBoard.width - paddleW) / 2;
+    paddleXLeft = (gameBoard.width - paddleW) / 2;
+paddleXRight = paddleXLeft + paddleW;
 // variables for ball positioning
 let ballX = gameBoard.width / 2,
     ballY = gameBoard.height - 30,
-    x = Math.floor((Math.random() * 5) + 1),
-    y = Math.floor((Math.random() * -5) + -1),
-    dx = 4,
-    dy = -2;
+    x = Math.floor((Math.random() * 10) + 1),
+    y = Math.floor((Math.random() * 10) + 1),
+    dx = 3,
+    dy = 2;
 let radius = 10;
 // keyboard keys
 let arrowRight = false,
@@ -54,18 +57,10 @@ for (let i = 0; i < brickColn; i++) {
 };
 console.log(bricks)
 
-// Game instruction
-function gameInstruction() {
-    var mgs = "Welcome to the brick breaker game \n" +
-        "\n The goal is to break all the bricks";
-
-    return mgs;
-}
-
 // function to draw the paddle
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(pLocation, gameBoard.height - 20, paddleW, paddleH);
+    ctx.rect(paddleXLeft, gameBoard.height - 20, paddleW, paddleH);
     ctx.fillStyle = "white";
     ctx.fill()
     ctx.closePath();
@@ -73,10 +68,10 @@ function drawPaddle() {
 
 // function to move the paddle
 function paddleMovement() {
-    if (arrowLeft && (pLocation > 0)) {
-        pLocation -= 7;
-    } else if (arrowRight && (pLocation + paddleW) < gameBoard.width) {
-        pLocation += 7;
+    if (arrowLeft && (paddleXLeft > 0)) {
+        paddleXLeft -= 7;
+    } else if (arrowRight && (paddleXLeft + paddleW) < gameBoard.width) {
+        paddleXLeft += 7;
     }
 }
 
@@ -144,6 +139,11 @@ function brickCollision() {
                 if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
                     dy = -dy;
                     b.status = 0;
+                    score++;
+                    if (score === brickColn * brickRow) {
+                        alert("Congratulation You WOn!!!");
+                        document.location.reload();
+                    }
                 }
             }
 
@@ -151,23 +151,53 @@ function brickCollision() {
     }
 }
 
-// function to detect ball collision 
+// checking for collision with wall
 function wallCollision() {
     if (ballX + dx > gameBoard.width - radius || ballX + dx < radius) {
         dx = -dx;
     }
     if (ballY + dy < radius) {
         dy = -dy;
-    } else if (ballY + dy > gameBoard.height - radius) {
+    } else if (ballY + dy > gameBoard.height) {
         dy = -dy;
     }
 }
 
-function collisionDetection() {
-    if (ballY === gameBoard.height - 30) {
-        if ((ballX <= pLocation + (70 / 2)) &&
-            (ballX >= pLocation - (70 / 2))) {
+
+// checking for paddle collision
+function paddleCollision() {
+    if (ballY >= gameBoard.height - 12 && ballY <= gameBoard.height - 30) {
+        console.log("ballY before:", ballY);
+        if (ballX - radius == paddleXRight || ballX + radius == paddleXLeft) {
+            console.log("ballY after", ballX);
             dy = -dy;
+        }
+    }
+
+    if (ballY === gameBoard.height - 30) {
+        if ((ballX <= paddleXLeft + 70) &&
+            (ballX >= paddleXLeft)) {
+            dy = -dy;
+        }
+        // need work
+        // if (ballX - radius == paddleXRight || ballX + radius == paddleXLeft) {
+        //     console.log(ballX);
+        //     dy = -dy;
+        // }
+    } else if (ballY + dy > gameBoard.height) {
+        //console.log(ballX + dy);
+        lives--;
+        console.log(lives);
+        if (lives == 0) {
+            alert("GAME OVER");
+            document.location.reload();
+        } else {
+            //console.log(ballX, " ", paddleXRight / 2)
+            ballX = gameBoard.width / 2;
+            ballY = gameBoard.height - 34;
+            dx = 3;
+            dy = 2;
+            paddleXLeft = (gameBoard.width - paddleW) / 2;
         }
     }
 }
@@ -178,9 +208,11 @@ function gameLoop() {
     drawBricks();
     drawBall();
     drawPaddle();
-
+    levelBoard.textContent = `Level: ${level}`;
+    scoreBoard.textContent = `Score: ${score}`;
+    liveBoard.textContent = `Lives: ${lives}`;
     brickCollision();
-    collisionDetection();
+    paddleCollision();
     wallCollision();
 
     paddleMovement();
@@ -188,5 +220,4 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-var interval = requestAnimationFrame(gameLoop);
-//setInterval(gameLoop, 60);
+gameLoop();
