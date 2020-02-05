@@ -1,9 +1,12 @@
 // Variable declaration for HTML elements
+var lives = 5;
 let score = document.getElementById('center'),
     level = document.getElementById('top-left'),
-    lives = document.getElementById('top-right'),
+    life = document.getElementById('top-right'),
     gameBoard = document.getElementById('game'),
     reset = document.getElementById('status');
+
+
 
 let ctx = gameBoard.getContext('2d');
 
@@ -18,9 +21,11 @@ let paddleH = 12,
 // variables for ball positioning
 let ballX = gameBoard.width / 2,
     ballY = gameBoard.height - 30,
-    dx = 3,
-    dy = -3;
-let ballRadius = 10;
+    x = Math.floor((Math.random() * 5) + 1),
+    y = Math.floor((Math.random() * -5) + -1),
+    dx = 4,
+    dy = -2;
+let radius = 10;
 // keyboard keys
 let arrowRight = false,
     arrowLeft = false;
@@ -40,7 +45,8 @@ for (let i = 0; i < brickColn; i++) {
                 // console.log(bricks[i][j]);
             bricks[i][j] = {
                 x: 0,
-                y: 0
+                y: 0,
+                status: 1
             };
         }
 
@@ -68,9 +74,9 @@ function drawPaddle() {
 // function to move the paddle
 function paddleMovement() {
     if (arrowLeft && (pLocation > 0)) {
-        pLocation -= 5;
+        pLocation -= 7;
     } else if (arrowRight && (pLocation + paddleW) < gameBoard.width) {
-        pLocation += 5;
+        pLocation += 7;
     }
 }
 
@@ -78,10 +84,8 @@ function paddleMovement() {
 function keyPress(event) {
     if (event.keyCode === 39) {
         arrowRight = true;
-        console.log("right key has been pressed")
     } else if (event.keyCode === 37) {
         arrowLeft = true;
-        console.log("left key has been pressed")
     }
 }
 
@@ -91,10 +95,8 @@ document.addEventListener('keydown', keyPress);
 function keyRelease() {
     if (event.keyCode === 39) {
         arrowRight = false;
-        console.log("right key has been released")
     } else if (event.keyCode === 37) {
         arrowLeft = false;
-        console.log("left key has been released")
     }
 }
 
@@ -103,7 +105,7 @@ document.addEventListener('keyup', keyRelease);
 // function to draw ball
 function drawBall() {
     ctx.beginPath();
-    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+    ctx.arc(ballX, ballY, radius, 0, Math.PI * 2);
     ctx.fillStyle = "red";
     ctx.fill()
     ctx.closePath();
@@ -119,34 +121,55 @@ function ballMovement() {
 function drawBricks() {
     for (let i = 0; i < brickColn; i++) {
         for (let j = 0; j < brickRow; j++) {
-            let brickPositionX = (i * (brickWidth + 10) + 30);
-            let brickPositionY = (j * (brickHeight + 12) + 40);
-            bricks[i][j].x = brickPositionX;
-            bricks[i][j].y = brickPositionY;
-            ctx.beginPath()
-            ctx.rect(brickPositionX, brickPositionY, brickWidth, brickHeight);
-            ctx.fillStyle = "white";
-            ctx.fill()
-            ctx.closePath();
+            if (bricks[i][j].status == 1) {
+                let brickPositionX = (i * (brickWidth + 10) + 30);
+                let brickPositionY = (j * (brickHeight + 12) + 40);
+                bricks[i][j].x = brickPositionX;
+                bricks[i][j].y = brickPositionY;
+                ctx.beginPath()
+                ctx.rect(brickPositionX, brickPositionY, brickWidth, brickHeight);
+                ctx.fillStyle = "white";
+                ctx.fill()
+                ctx.closePath();
+            }
+        }
+    }
+}
+
+function brickCollision() {
+    for (let i = 0; i < brickColn; i++) {
+        for (let j = 0; j < brickRow; j++) {
+            let b = bricks[i][j];
+            if (b.status === 1) {
+                if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
+                    dy = -dy;
+                    b.status = 0;
+                }
+            }
+
         }
     }
 }
 
 // function to detect ball collision 
-function collisionDetection() {
-    if ((ballX + dx > gameBoard.width - ballRadius) || (ballX < ballRadius)) {
-        dx--;
+function wallCollision() {
+    if (ballX + dx > gameBoard.width - radius || ballX + dx < radius) {
+        dx = -dx;
     }
-    if (ballY + dy < ballRadius) {
-        dy++;
-    } else if (ballY + dy > gameBoard.height - ballRadius) {
-        if (ballX > pLocation && ballX < pLocation - paddleW) {
-            dy--;
-        } else {
-            console.log("GameOver");
+    if (ballY + dy < radius) {
+        dy = -dy;
+    } else if (ballY + dy > gameBoard.height - radius) {
+        dy = -dy;
+    }
+}
+
+function collisionDetection() {
+    if (ballY === gameBoard.height - 30) {
+        if ((ballX <= pLocation + (70 / 2)) &&
+            (ballX >= pLocation - (70 / 2))) {
+            dy = -dy;
         }
     }
-
 }
 
 // Function to start and loop game. Main game function
@@ -156,11 +179,14 @@ function gameLoop() {
     drawBall();
     drawPaddle();
 
-    collisionDetection()
+    brickCollision();
+    collisionDetection();
+    wallCollision();
+
     paddleMovement();
     ballMovement();
     requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(gameLoop);
+var interval = requestAnimationFrame(gameLoop);
 //setInterval(gameLoop, 60);
