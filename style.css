@@ -11,6 +11,28 @@ canvas {
     display: block;
 }
 
+#win {
+    display: none;
+    position: absolute;
+    top: 200px;
+    left: 300px;
+    width: 200px;
+    height: 50;
+    font-size: 40px;
+    color: red;
+}
+
+#gameover {
+    display: none;
+    position: absolute;
+    top: 200px;
+    left: 350px;
+    width: 200px;
+    height: 50;
+    font-size: 40px;
+    color: red;
+}
+
 #container {
     max-width: 500px;
     height: 70vh;
@@ -55,6 +77,13 @@ main {
     grid-area: game;
 }
 
+#msg {
+    display: block;
+    align-content: left;
+    text-align: center;
+    color: black;
+}
+
 #btm {
     /* margin-left: 60%; */
     grid-area: btm;
@@ -63,4 +92,8 @@ main {
 button {
     padding: 3px 30px 3px 30px;
     font-size: medium;
+}
+
+#reset {
+    display: inline;
 }
