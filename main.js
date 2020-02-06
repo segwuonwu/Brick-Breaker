@@ -9,9 +9,6 @@ let scoreBoard = document.getElementById('score'),
     won = document.getElementById("win"),
     gameover = document.getElementById('gameover');
 
-//gameover.style.display = "none";
-//won.style.display = "none";
-
 var score = 0,
     level = 1,
     lives = 3;
@@ -50,8 +47,6 @@ for (let i = 0; i < brickColn; i++) {
     if (!bricks[i]) {
         bricks[i] = [];
         for (let j = 0; j < brickRow; j++) {
-            console.log("I'm here")
-                // console.log(bricks[i][j]);
             bricks[i][j] = {
                 x: 0,
                 y: 0,
@@ -61,7 +56,6 @@ for (let i = 0; i < brickColn; i++) {
 
     }
 };
-console.log(bricks)
 
 // function to draw the paddle
 function drawPaddle() {
@@ -154,9 +148,6 @@ function brickCollision() {
 
                         reset.addEventListener('click', function() {
                             document.location.reload();
-                            //reset.style.display = "none"
-                            //start.style.display = "inline"
-                            //gameLoop();
                         })
                     }
                 }
@@ -211,9 +202,6 @@ function paddleCollision() {
 
             reset.addEventListener('click', function() {
                 document.location.reload();
-                //reset.style.display = "none"
-                //start.style.display = "inline"
-                //gameLoop();
             })
 
         } else {
@@ -229,8 +217,6 @@ function paddleCollision() {
 
 // Function to start and loop game. Main game function
 function gameLoop() {
-    //start.style.display = "none"
-    //reset.style.display = "block"
     ctx.clearRect(0, 0, game.width, game.height);
 
     drawBricks();

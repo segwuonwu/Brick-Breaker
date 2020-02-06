@@ -3,11 +3,22 @@
     padding: 0;
 }
 
+body {
+    background-image: url("abstract-violet-pixel-rain-background_23-2148362568.jpg");
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0 5px 0;
+}
+
 canvas {
     width: 500px;
     height: 400px;
     margin: 0 auto;
-    background: #000;
+    background-image: url("game-background-p4-4.jpg");
+    background-repeat: no-repeat;
+    background-size: 500px 400px;
     display: block;
 }
 
@@ -31,12 +42,22 @@ canvas {
     justify-content: center;
     align-content: center;
     text-align: center;
-    /* border: 1px solid; */
     top: 200px;
     left: 35%;
     width: 27%;
     font-size: 40px;
     color: red;
+}
+
+#msg {
+    display: block;
+    position: absolute;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border: 1px solid;
+    background-color: rgb(173, 173, 218);
+    color: black;
 }
 
 #container {
@@ -83,13 +104,6 @@ main {
     grid-area: game;
 }
 
-#msg {
-    display: block;
-    align-content: left;
-    text-align: center;
-    color: black;
-}
-
 #btm {
     /* margin-left: 60%; */
     grid-area: btm;
@@ -97,6 +111,8 @@ main {
 
 button {
     padding: 3px 30px 3px 30px;
+    margin-left: 30px;
+    margin-right: 30px;
     font-size: medium;
 }
 
