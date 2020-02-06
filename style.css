@@ -14,10 +14,13 @@ canvas {
 #win {
     display: none;
     position: absolute;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    /* border: 1px solid; */
     top: 200px;
-    left: 300px;
-    width: 200px;
-    height: 50;
+    left: 35%;
+    width: 27%;
     font-size: 40px;
     color: red;
 }
@@ -25,10 +28,13 @@ canvas {
 #gameover {
     display: none;
     position: absolute;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    /* border: 1px solid; */
     top: 200px;
-    left: 350px;
-    width: 200px;
-    height: 50;
+    left: 35%;
+    width: 27%;
     font-size: 40px;
     color: red;
 }
