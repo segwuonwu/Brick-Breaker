@@ -185,21 +185,19 @@ function wallCollision() {
 
 // checking for paddle collision
 function paddleCollision() {
-    // side paddle collision detection
-    // if Y is in range of paddle bottom and paddle top + height of ball
-    if (ballY >= gameBoard.height - 18 && ballY <= gameBoard.height - 30) {
-        // if ball is touching left end of paddle OR right end of paddle
-        if ((ballX <= paddleXLeft && ballX >= paddleXLeft - 10) || (bellX >= paddleXRight && bellx <= paddleXRight + 10)) {
-            dy = -dy;
-        }
-    }
     if (ballY === gameBoard.height - 30) {
         if ((ballX <= paddleXLeft + 70) &&
             (ballX >= paddleXLeft)) {
             dy = -dy;
         }
+    } // side paddle collision detection
+    // if Y is in range of paddle bottom and paddle top + height of ball
+    else if (ballY >= gameBoard.height - 18 && ballY <= gameBoard.height - 30) {
+        // if ball is touching left end of paddle OR right end of paddle
+        if ((ballX <= paddleXLeft && ballX >= paddleXLeft - 10) || (bellX >= paddleXRight && bellx <= paddleXRight + 10)) {
+            dy = -dy;
+        }
     } else if (ballY + dy > gameBoard.height) {
-        //console.log(ballX + dy);
         lives--;
         console.log(lives);
         if (lives == 0) {
