@@ -109,7 +109,6 @@ function drawBall() {
 
 //change in ball direction
 function ballMovement() {
-    //document.getElementById("intro").play();
     ballX += dx;
     ballY += dy;
 }
@@ -149,6 +148,7 @@ function brickCollision() {
                     dy = -dy;
                     b.status = 0;
                     score++;
+
                     if (score === brickColn * brickRow) {
                         start.disabled = true;
                         document.getElementById("intro").pause();
@@ -185,24 +185,19 @@ function wallCollision() {
 
 // checking for paddle collision
 function paddleCollision() {
-    if (ballY >= gameBoard.height - 15 && ballY <= gameBoard.height - 30) {
-        console.log("ballY before:", ballY);
-        if (ballX - radius == paddleXRight || ballX + radius == paddleXLeft) {
-            console.log("ballY after", ballX);
+    // side paddle collision detection
+    // if Y is in range of paddle bottom and paddle top + height of ball
+    if (ballY >= gameBoard.height - 18 && ballY <= gameBoard.height - 30) {
+        // if ball is touching left end of paddle OR right end of paddle
+        if ((ballX <= paddleXLeft && ballX >= paddleXLeft - 10) || (bellX >= paddleXRight && bellx <= paddleXRight + 10)) {
             dy = -dy;
         }
     }
-
     if (ballY === gameBoard.height - 30) {
         if ((ballX <= paddleXLeft + 70) &&
             (ballX >= paddleXLeft)) {
             dy = -dy;
         }
-        // need work
-        // if (ballX - radius == paddleXRight || ballX + radius == paddleXLeft) {
-        //     console.log(ballX);
-        //     dy = -dy;
-        // }
     } else if (ballY + dy > gameBoard.height) {
         //console.log(ballX + dy);
         lives--;
@@ -222,9 +217,7 @@ function paddleCollision() {
                 document.getElementById("dead").pause();
                 msg.style.display = "block";
             })
-
         } else {
-            //console.log(ballX, " ", paddleXRight / 2)
             ballX = gameBoard.width / 2;
             ballY = gameBoard.height - 34;
             dx = 3;

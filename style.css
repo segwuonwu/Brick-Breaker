@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("abstract-violet-pixel-rain-background_23-2148362568.jpg");
+    background-image: url("images/abstract-violet-pixel-rain-background_23-2148362568.jpg");
 }
 
 h1 {
@@ -18,7 +18,7 @@ canvas {
     width: 500px;
     height: 400px;
     margin: 0 auto;
-    background-image: url("game-background-p4-4.jpg");
+    background-image: url("images/game-background-p4-4.jpg");
     background-repeat: no-repeat;
     background-size: 500px 400px;
     display: block;
@@ -134,4 +134,10 @@ button:hover {
 
 #reset {
     display: inline;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 50px;
 }
