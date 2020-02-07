@@ -4,6 +4,7 @@ let scoreBoard = document.getElementById('score'),
     levelBoard = document.getElementById('level'),
     liveBoard = document.getElementById('lives'),
     gameBoard = document.getElementById('game'),
+    msg = document.getElementById("msg"),
     start = document.getElementById('start'),
     reset = document.getElementById('reset'),
     won = document.getElementById("win"),
@@ -108,6 +109,7 @@ function drawBall() {
 
 //change in ball direction
 function ballMovement() {
+    //document.getElementById("intro").play();
     ballX += dx;
     ballY += dy;
 }
@@ -123,36 +125,47 @@ function drawBricks() {
                 bricks[i][j].y = brickPositionY;
                 ctx.beginPath()
                 ctx.rect(brickPositionX, brickPositionY, brickWidth, brickHeight);
-                ctx.fillStyle = "white";
-                ctx.fill()
+                if (bricks[i][j].x % 2 === 0 && bricks[i][j].y % 2 === 0) {
+                    ctx.fillStyle = "white";
+                    ctx.fill()
+                } else {
+                    ctx.fillStyle = "blue";
+                    ctx.fill()
+                }
                 ctx.closePath();
             }
         }
     }
 }
 
+// checking for collision with bricks
 function brickCollision() {
     for (let i = 0; i < brickColn; i++) {
         for (let j = 0; j < brickRow; j++) {
             let b = bricks[i][j];
             if (b.status === 1) {
                 if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
+                    document.getElementById("hit").play();
                     dy = -dy;
                     b.status = 0;
                     score++;
                     if (score === brickColn * brickRow) {
+                        start.disabled = true;
+                        document.getElementById("intro").pause();
+                        document.getElementById("yay").play();
                         won.style.display = "block";
                         reset.style.display = "inline"
                         dx = 0;
                         dy = 0;
-
                         reset.addEventListener('click', function() {
+                            start.disabled = false;
                             document.location.reload();
+                            document.getElementById("yay").pause();
+                            msg.style.display = "block";
                         })
                     }
                 }
             }
-
         }
     }
 }
@@ -195,13 +208,19 @@ function paddleCollision() {
         lives--;
         console.log(lives);
         if (lives == 0) {
+            start.disabled = true;
             gameover.style.display = "block";
+            document.getElementById("intro").pause();
+            document.getElementById("dead").play();
             reset.style.display = "inline"
             dx = 0;
             dy = 0;
 
             reset.addEventListener('click', function() {
+                start.disabled = false;
                 document.location.reload();
+                document.getElementById("dead").pause();
+                msg.style.display = "block";
             })
 
         } else {
@@ -215,8 +234,14 @@ function paddleCollision() {
     }
 }
 
+//add background music
+start.addEventListener("click", function() {
+    document.getElementById("intro").play();
+});
+
 // Function to start and loop game. Main game function
 function gameLoop() {
+    msg.style.display = "none";
     ctx.clearRect(0, 0, game.width, game.height);
 
     drawBricks();

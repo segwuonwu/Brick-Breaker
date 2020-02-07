@@ -26,18 +26,24 @@
             <canvas id="game"></canvas>
             <div id="gameover">GAME OVER</div>
             <div id="win">Congratulation You Won!!!</div>
-            <!-- <div id="msg">
-                <h3>WELCOME TO THE WORD OF BRICK BREAKER</h3>
-                <p>Go into the world of brick breaker and break down all the bricks.<br> To begin the game, click on the start button.<br> As the ball moves, use the paddle to keep it from going pass the paddle.<br> You have 3 lives. You lose a life when
-                    the ball goes pass the paddle.<br> Clear all the bricks to win the game, and if you fail to break all the bricks<br> before your lives get to zero, you loss the game.<br> Use the left arrow key and right arrow key to move the paddle.<br>                    One the game is over you can use the reset button to reset the game.<br><br>
+            <div id="msg">
+                <h3>INSTRUCTION</h3>
+                <br>
+                <p>Go into the world of brick breaker and break down all the bricks. To begin the game, click on the start button. As the ball moves, use the paddle to keep it from going pass the paddle. You have 3 lives. You lose a life when the ball goes
+                    pass the paddle. Clear all the bricks to win the game, and if you fail to break all the bricks before your lives get to zero, you loss the game. Use the left arrow key and right arrow key to move the paddle. Once the game is over you
+                    can use the reset button to reset the game.
                 </p>
-            </div> -->
+            </div>
         </main>
         <aside id="btm">
             <button type="button" id="start" onclick="gameLoop()">START</button>
             <button type="button" id="reset">RESET</button>
         </aside>
     </div>
+    <audio id="dead" src="sounds/BldgExplode.wav"></audio>
+    <audio id="yay" src="sounds/Heavy_ConceptB.wav"></audio>
+    <audio id="hit" src="sounds/Electricity.wav"></audio>
+    <audio id="intro" src="sounds/For Game 01.0 Test.wav" loop autostart="true"></audio>
 </body>
 <script src="main.js"></script>
 
