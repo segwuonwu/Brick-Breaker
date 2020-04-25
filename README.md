@@ -1,7 +1,7 @@
 ## Brick Breaker
 Brick breaker game for Project 1 at General Assembly, SEI-29
 
-[Game Demo](https://github.com/segwuonwu/Brick-Breaker)
+[Game Demo](https://segwuonwu.github.io/Brick-Breaker/)
 
 ## Wireframes
 ![This is the picture of of my initial wireframe](images/wireframe.jpg)
